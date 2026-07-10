@@ -2,213 +2,223 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StreamFlix</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Adriana Páez · Ingeniera Industrial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #141414; color: #fff; }
-
-        /* NAV */
-        .nav {
-            position: fixed; top: 0; width: 100%; z-index: 10;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 60px; background: linear-gradient(180deg, rgba(0,0,0,.8) 0, transparent);
-            transition: background .3s;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,.08) 0, transparent 60%),
+                              radial-gradient(ellipse at 80% 50%, rgba(139,92,246,.08) 0, transparent 60%);
         }
-        .nav.scrolled { background: #141414; }
-        .nav .logo { font-size: 28px; font-weight: 800; color: #e50914; letter-spacing: -1px; }
-        .nav .logo span { color: #fff; }
-        .nav nav a { color: #e5e5e5; text-decoration: none; margin-left: 24px; font-size: 14px; font-weight: 600; transition: color .2s; }
-        .nav nav a:hover { color: #b3b3b3; }
-        .nav .btns { display: flex; gap: 12px; }
-        .nav .btns button {
-            padding: 8px 18px; border: none; border-radius: 4px;
-            font-weight: 700; font-size: 14px; cursor: pointer; transition: opacity .2s;
+        .video-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0; overflow: hidden;
         }
-        .nav .btns .login { background: transparent; color: #fff; border: 1px solid #fff; }
-        .nav .btns .signup { background: #e50914; color: #fff; }
-        .nav .btns button:hover { opacity: .8; }
-
-        /* HERO */
-        .hero {
-            height: 90vh; display: flex; align-items: center;
-            background: linear-gradient(77deg, rgba(0,0,0,.7) 0, rgba(0,0,0,0) 85%),
-                        url('https://assets.nflxext.com/ffe/siteui/vlv3/ff5581c5-8bc8-4e1b-8c6d-8a6f3b0b5c5c/landing.jpg') center/cover no-repeat;
-            padding: 0 60px; position: relative;
+        .video-bg video {
+            width: 100%; height: 100%; object-fit: cover; opacity: .15;
         }
-        .hero::after {
-            content: ''; position: absolute; bottom: 0; width: 100%; left: 0;
-            height: 120px; background: linear-gradient(180deg, transparent 0, #141414 100%);
+        .video-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(10,10,15,.85) 0, rgba(10,10,15,.7) 50%, rgba(10,10,15,.85) 100%);
         }
-        .hero-content { max-width: 600px; z-index: 1; }
-        .hero-content .badge {
-            display: inline-block; background: #e50914; padding: 4px 12px; border-radius: 4px;
-            font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
-        }
-        .hero-content h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
-        .hero-content p { font-size: 18px; color: #ccc; line-height: 1.6; margin-bottom: 24px; max-width: 480px; }
-        .hero-content .btn-play {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 12px 32px; border: none; border-radius: 4px;
-            background: #fff; color: #000; font-weight: 700; font-size: 18px; cursor: pointer; transition: opacity .2s;
-        }
-        .hero-content .btn-play:hover { opacity: .85; }
-        .hero-content .btn-info {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 12px 28px; border: none; border-radius: 4px;
-            background: rgba(109,109,110,.7); color: #fff; font-weight: 700; font-size: 18px; cursor: pointer;
-            margin-left: 12px; transition: background .2s;
-        }
-        .hero-content .btn-info:hover { background: rgba(109,109,110,.5); }
-
-        /* CATEGORY ROW */
-        .section { padding: 0 60px; margin-bottom: 40px; }
-        .section .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .section .header h2 { font-size: 22px; font-weight: 700; }
-        .section .header a { color: #b3b3b3; text-decoration: none; font-size: 14px; font-weight: 600; transition: color .2s; }
-        .section .header a:hover { color: #fff; }
-        .row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: #333 transparent; }
-        .row::-webkit-scrollbar { height: 6px; }
-        .row::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
         .card {
-            flex: 0 0 200px; height: 280px; border-radius: 4px; overflow: hidden;
-            position: relative; cursor: pointer; transition: transform .3s;
+            position: relative; z-index: 1;
+            width: 92%; max-width: 440px;
+            background: rgba(255,255,255,.04);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 32px;
+            padding: 40px 28px 32px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0,0,0,.6);
         }
-        .card:hover { transform: scale(1.05); z-index: 2; }
-        .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .card .overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 40px 12px 12px;
-            background: linear-gradient(0deg, rgba(0,0,0,.9) 0, transparent 100%);
-            opacity: 0; transition: opacity .3s;
+        .avatar {
+            width: 120px; height: 120px; border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,.1);
+            margin: 0 auto 16px;
+            display: block;
+            background: #1a1a2e;
+            box-shadow: 0 8px 32px rgba(0,0,0,.4);
         }
-        .card:hover .overlay { opacity: 1; }
-        .card .overlay h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .card .overlay p { font-size: 12px; color: #b3b3b3; }
-
-        /* FOOTER */
-        .footer {
-            padding: 40px 60px 60px; color: #808080; font-size: 13px;
-            border-top: 1px solid #222;
+        .card h1 {
+            font-size: 26px; font-weight: 800;
+            background: linear-gradient(135deg, #f0f0ff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .footer .social { display: flex; gap: 20px; margin-bottom: 24px; }
-        .footer .social a { color: #fff; font-size: 20px; text-decoration: none; }
-        .footer .links { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
-        .footer .links a { color: #808080; text-decoration: none; display: block; transition: color .2s; }
-        .footer .links a:hover { color: #b3b3b3; }
-        .footer p { margin-top: 20px; }
-
-        @media (max-width: 768px) {
-            .nav { padding: 16px 24px; flex-wrap: wrap; gap: 12px; }
-            .nav nav a { margin-left: 12px; font-size: 12px; }
-            .hero { padding: 0 24px; height: 70vh; }
-            .hero-content h1 { font-size: 32px; }
-            .hero-content p { font-size: 14px; }
-            .section { padding: 0 24px; }
-            .card { flex: 0 0 140px; height: 200px; }
-            .footer { padding: 24px; }
-            .footer .links { grid-template-columns: repeat(2,1fr); }
+        .card .title { font-size: 14px; color: #94a3b8; font-weight: 400; margin-top: 2px; }
+        .card .subtitle { font-size: 12px; color: #64748b; font-weight: 300; margin-top: 2px; letter-spacing: .5px; }
+        .divider {
+            width: 48px; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,.5), transparent);
+            margin: 18px auto;
+        }
+        .card .bio { font-size: 13px; color: #94a3b8; line-height: 1.7; margin-bottom: 6px; }
+        .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 18px 0 16px; }
+        .socials a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; border-radius: 14px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.06);
+            color: #e2e8f0; font-size: 20px; text-decoration: none;
+            transition: all .25s ease; cursor: pointer;
+        }
+        .socials a:hover {
+            background: rgba(255,255,255,.12);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+        }
+        .socials a svg { width: 22px; height: 22px; fill: currentColor; }
+        .actions { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 0; }
+        .actions a, .actions button {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 14px; border-radius: 14px;
+            border: none; font-family: inherit; font-size: 14px; font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: all .25s ease;
+        }
+        .actions .primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 4px 20px rgba(99,102,241,.3); }
+        .actions .primary:hover { transform: scale(1.02); box-shadow: 0 6px 28px rgba(99,102,241,.45); }
+        .actions .secondary { background: rgba(255,255,255,.06); color: #e2e8f0; border: 1px solid rgba(255,255,255,.06); }
+        .actions .secondary:hover { background: rgba(255,255,255,.1); transform: scale(1.02); }
+        .actions .whatsapp { background: #25d366; color: #fff; }
+        .actions .whatsapp:hover { background: #20bd5a; transform: scale(1.02); }
+        .contact { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+        .contact a { color: #64748b; text-decoration: none; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: color .2s; }
+        .contact a:hover { color: #a5b4fc; }
+        .audio-toggle {
+            position: fixed; top: 20px; right: 20px; z-index: 10;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(255,255,255,.08); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.08);
+            color: #e2e8f0; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .25s;
+        }
+        .audio-toggle:hover { background: rgba(255,255,255,.15); transform: scale(1.05); }
+        .audio-toggle.muted { opacity: .5; }
+        .click-indicator {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 10; background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
+            padding: 6px 16px; border-radius: 20px;
+            font-size: 11px; color: #64748b; pointer-events: none; opacity: 0;
+            transition: opacity .4s;
+        }
+        .click-indicator.show { opacity: 1; }
+        @media (max-width: 480px) {
+            .card { padding: 28px 18px 24px; border-radius: 24px; }
+            .avatar { width: 100px; height: 100px; }
+            .card h1 { font-size: 22px; }
+            .socials a { width: 44px; height: 44px; }
         }
     </style>
 </head>
 <body>
 
-<nav class="nav" id="navbar">
-    <div class="logo">Stream<span>Flix</span></div>
-    <nav>
-        <a href="#">Inicio</a>
-        <a href="#">Series</a>
-        <a href="#">Películas</a>
-        <a href="#">Novedades</a>
-        <a href="#">Mi lista</a>
-    </nav>
-    <div class="btns">
-        <button class="login">Iniciar sesión</button>
-        <button class="signup">Comenzar</button>
-    </div>
-</nav>
+<div class="video-bg">
+    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800">
+        <source src="https://cdn.coverr.co/videos/coverr-digital-network-connection-5921/1080p.mp4" type="video/mp4" />
+    </video>
+</div>
 
-<section class="hero">
-    <div class="hero-content">
-        <div class="badge">Nuevo lanzamiento</div>
-        <h1>Dragon Realm</h1>
-        <p>En un mundo donde los dragones gobiernan los cielos, una joven guerrera descubre un poder ancestral que podría cambiarlo todo.</p>
-        <div>
-            <button class="btn-play">▶ Reproducir</button>
-            <button class="btn-info">ℹ Más información</button>
-        </div>
-    </div>
-</section>
+<button class="audio-toggle" id="audioToggle" title="Encender / Apagar música">♫</button>
+<div class="click-indicator" id="clickIndicator">🔊 Sonido activado</div>
 
-<section class="section">
-    <div class="header">
-        <h2>Tendencias</h2>
-        <a href="#">Ver todo →</a>
-    </div>
-    <div class="row">
-        <div class="card"><img src="https://picsum.photos/seed/m1/400/560" alt="" /><div class="overlay"><h3>Cyber Edge</h3><p>Acción · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/m2/400/560" alt="" /><div class="overlay"><h3>Lost Paradise</h3><p>Drama · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/m3/400/560" alt="" /><div class="overlay"><h3>Project Nova</h3><p>Ciencia ficción · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/m4/400/560" alt="" /><div class="overlay"><h3>Shadow Ops</h3><p>Suspenso · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/m5/400/560" alt="" /><div class="overlay"><h3>Echoes</h3><p>Terror · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/m6/400/560" alt="" /><div class="overlay"><h3>Starfall</h3><p>Aventura · 2025</p></div></div>
-    </div>
-</section>
+<main class="card">
+    <img class="avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face" alt="Adriana Páez" loading="lazy" />
+    <h1>Adriana Páez</h1>
+    <p class="title">Ingeniera Industrial</p>
+    <p class="subtitle">Optimización · Calidad · Innovación</p>
+    <div class="divider"></div>
+    <p class="bio">Especialista en mejora de procesos, gestión de calidad y transformación digital. Transformo datos en decisiones y procesos en resultados.</p>
 
-<section class="section">
-    <div class="header">
-        <h2>Continuar viendo</h2>
-        <a href="#">Ver todo →</a>
+    <div class="socials">
+        <a href="https://linkedin.com/in/adrianapaez" target="_blank" rel="noopener" aria-label="LinkedIn" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://wa.me/573001234567?text=Hola%20Adriana%2C%20vi%20tu%20tarjeta%20digital" target="_blank" rel="noopener" aria-label="WhatsApp" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://instagram.com/adriana.paez" target="_blank" rel="noopener" aria-label="Instagram" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://youtube.com/@adrianapaez" target="_blank" rel="noopener" aria-label="YouTube" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a href="https://tiktok.com/@adriana.paez" target="_blank" rel="noopener" aria-label="TikTok" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+        <a href="https://github.com/adrianapaez" target="_blank" rel="noopener" aria-label="GitHub" class="click-sound">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        </a>
     </div>
-    <div class="row">
-        <div class="card"><img src="https://picsum.photos/seed/s1/400/560" alt="" /><div class="overlay"><h3>Dark Matter</h3><p>T1 · E8</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/s2/400/560" alt="" /><div class="overlay"><h3>Iron Coast</h3><p>T2 · E5</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/s3/400/560" alt="" /><div class="overlay"><h3>Neon Nights</h3><p>T1 · E3</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/s4/400/560" alt="" /><div class="overlay"><h3>The Loop</h3><p>T3 · E2</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/s5/400/560" alt="" /><div class="overlay"><h3>Phoenix</h3><p>T1 · E6</p></div></div>
-    </div>
-</section>
 
-<section class="section">
-    <div class="header">
-        <h2>Mi lista</h2>
-        <a href="#">Ver todo →</a>
+    <div class="actions">
+        <a href="tel:+573001234567" class="primary click-sound">📞 Llamar ahora</a>
+        <a href="mailto:adriana.paez@email.com" class="secondary click-sound">✉️ Enviar correo</a>
+        <a href="https://wa.me/573001234567?text=Hola%20Adriana%2C%20vi%20tu%20tarjeta%20digital" target="_blank" rel="noopener" class="whatsapp click-sound">💬 WhatsApp</a>
     </div>
-    <div class="row">
-        <div class="card"><img src="https://picsum.photos/seed/l1/400/560" alt="" /><div class="overlay"><h3>Atlantis</h3><p>Documental · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/l2/400/560" alt="" /><div class="overlay"><h3>Blade Runner</h3><p>Ciencia ficción · 2024</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/l3/400/560" alt="" /><div class="overlay"><h3>Last Chance</h3><p>Drama · 2025</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/l4/400/560" alt="" /><div class="overlay"><h3>Wild Frontier</h3><p>Aventura · 2024</p></div></div>
-        <div class="card"><img src="https://picsum.photos/seed/l5/400/560" alt="" /><div class="overlay"><h3>Zero Gravity</h3><p>Sci-Fi · 2025</p></div></div>
-    </div>
-</section>
 
-<footer class="footer">
-    <div class="social">
-        <a href="#">✕</a> <a href="#">●</a> <a href="#">◆</a> <a href="#">⬡</a>
+    <div class="contact">
+        <a href="tel:+573001234567">📞 +57 300 123 4567</a>
+        <a href="mailto:adriana.paez@email.com">✉️ adriana.paez@email.com</a>
+        <a href="https://maps.google.com/?q=Bogotá+Colombia" target="_blank" rel="noopener">📍 Bogotá, Colombia</a>
     </div>
-    <div class="links">
-        <a href="#">Audio y subtítulos</a>
-        <a href="#">Prensa</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Contáctanos</a>
-        <a href="#">Centro de ayuda</a>
-        <a href="#">Inversores</a>
-        <a href="#">Avisos legales</a>
-        <a href="#">Prueba de velocidad</a>
-        <a href="#">Empleo</a>
-        <a href="#">Términos de uso</a>
-        <a href="#">Preferencias de cookies</a>
-        <a href="#">Garantía legal</a>
-    </div>
-    <p>© 2025 StreamFlix. Todos los derechos reservados.</p>
-</footer>
+</main>
+
+<audio id="bgAudio" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+</audio>
+<audio id="clickSound" preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" type="audio/mpeg" />
+</audio>
 
 <script>
-    window.addEventListener('scroll', () => {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
-    });
+    (function() {
+        const bgAudio = document.getElementById('bgAudio');
+        const clickSound = document.getElementById('clickSound');
+        const toggleBtn = document.getElementById('audioToggle');
+        const indicator = document.getElementById('clickIndicator');
+        let isMuted = true;
+        bgAudio.volume = 0.25;
+        clickSound.volume = 0.4;
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isMuted) {
+                bgAudio.play().catch(() => {});
+                toggleBtn.classList.remove('muted');
+                toggleBtn.textContent = '♫';
+                isMuted = false;
+            } else {
+                bgAudio.pause();
+                toggleBtn.classList.add('muted');
+                toggleBtn.textContent = '♪';
+                isMuted = true;
+            }
+        });
+        document.querySelectorAll('.click-sound').forEach(el => {
+            el.addEventListener('click', function() {
+                clickSound.currentTime = 0;
+                clickSound.play().catch(() => {});
+                indicator.classList.add('show');
+                clearTimeout(indicator._timeout);
+                indicator._timeout = setTimeout(() => indicator.classList.remove('show'), 800);
+            });
+        });
+        document.addEventListener('click', function initAudio() {
+            if (bgAudio.paused && !isMuted) bgAudio.play().catch(() => {});
+        }, { once: true });
+    })();
 </script>
 </body>
 </html>
