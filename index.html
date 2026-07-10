@@ -3,73 +3,1128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Adriana Páez | Engineering</title>
+    <title>Adrià Páez | Diseñador Maestro de Tarjetas NFC Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --bg: #0A0A0A;
-            --gold: #D4AF37;
-            --glass: rgba(255, 255, 255, 0.05);
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #111114;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --accent-gold: #c9a96e;
+            --accent-gold-light: #d4b87a;
+            --accent-copper: #b8956a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a5;
+            --text-muted: #6a6a70;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-gold: rgba(201, 169, 110, 0.15);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SF Pro Display', -apple-system, sans-serif; }
-        body { background: var(--bg); color: white; display: flex; justify-content: center; overflow-x: hidden; }
-        
-        .app-container { width: 100%; max-width: 430px; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* Hero */
-        .hero { margin-top: 60px; text-align: center; }
-        .avatar { width: 140px; height: 140px; border-radius: 30px; background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--gold); margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { font-size: 32px; color: var(--gold); letter-spacing: -1px; }
-        p { font-size: 16px; opacity: 0.7; margin-top: 5px; }
-
-        /* Glass Buttons */
-        .btn-group { width: 100%; margin-top: 40px; display: flex; flex-direction: column; gap: 15px; }
-        .btn { 
-            width: 100%; padding: 18px; background: var(--glass); backdrop-filter: blur(15px);
-            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px;
-            color: white; text-align: center; text-decoration: none; font-weight: 600;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .btn:active { transform: scale(0.97); }
-        .btn-gold { border-color: var(--gold); color: var(--gold); }
-        .btn-gold:hover { background: var(--gold); color: var(--bg); }
 
-        /* Section Cards */
-        .card-section { width: 100%; margin-top: 30px; padding: 20px; background: var(--glass); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
-        .grid-social { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .icon { height: 50px; background: rgba(255,255,255,0.03); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Aurora Background */
+        .aurora-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .aurora {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            animation: auroraFloat 20s ease-in-out infinite;
+        }
+
+        .aurora-1 {
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.3) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .aurora-2 {
+            background: radial-gradient(circle, rgba(184, 149, 106, 0.2) 0%, transparent 70%);
+            bottom: -300px;
+            left: -200px;
+            animation-delay: -7s;
+        }
+
+        .aurora-3 {
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes auroraFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Main Content */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 32px;
+            position: relative;
+            animation: logoReveal 1.5s ease-out forwards;
+        }
+
+        .hero-logo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--accent-gold);
+            border-radius: 20px;
+            transform: rotate(45deg);
+            animation: logoRotate 3s ease-in-out infinite;
+        }
+
+        .hero-logo::after {
+            content: 'AP';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+        }
+
+        @keyframes logoReveal {
+            0% { opacity: 0; transform: scale(0.8) rotate(-10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        @keyframes logoRotate {
+            0%, 100% { transform: rotate(45deg); }
+            50% { transform: rotate(50deg); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            backdrop-filter: blur(20px);
+            animation: fadeSlideUp 1s ease-out 0.3s both;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 8vw, 40px);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            animation: fadeSlideUp 1s ease-out 0.5s both;
+        }
+
+        .hero-title span {
+            color: var(--accent-gold);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: 300;
+            color: var(--text-secondary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+            animation: fadeSlideUp 1s ease-out 0.7s both;
+        }
+
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: fadeSlideUp 1s ease-out 1s both;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent-gold), transparent);
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: scaleY(1); opacity: 1; }
+            50% { transform: scaleY(0.5); opacity: 0.5; }
+        }
+
+        /* Section Base */
+        .section {
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 6vw, 28px);
+            font-weight: 500;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+
+        .section-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        /* About Section */
+        .about-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .about-visual {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.1) 0%, rgba(10, 10, 12, 0.8) 100%);
+            border: 1px solid var(--glass-border);
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 30px;
+            transform: translate(-50%, -50%) rotate(45deg);
+            opacity: 0.3;
+        }
+
+        .about-visual::after {
+            content: 'DISEÑADOR';
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 4px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 12px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .about-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services-section {
+            background: var(--bg-secondary);
+        }
+
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            border-color: rgba(201, 169, 110, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Process Section */
+        .process-section {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .process-timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--accent-gold), transparent);
+        }
+
+        .process-step {
+            position: relative;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .process-step:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .process-step::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        .process-step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .process-step-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .process-step-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Portfolio Section */
+        .portfolio-section {
+            background: var(--bg-primary);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .portfolio-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.08) 0%, rgba(10, 10, 12, 0.9) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--accent-gold) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .portfolio-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(201, 169, 110, 0.3);
+        }
+
+        .portfolio-item:nth-child(1) {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+        }
+
+        .portfolio-icon {
+            font-size: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portfolio-label {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background: var(--bg-secondary);
+        }
+
+        .testimonial-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--accent-gold);
+            opacity: 0.2;
+            line-height: 1;
+            margin-bottom: -8px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .testimonial-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 80px 24px 120px;
+        }
+
+        .cta-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(24px, 7vw, 32px);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .cta-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button-primary {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 100%);
+            color: var(--bg-primary);
+            border: none;
+            box-shadow: 0 8px 32px rgba(201, 169, 110, 0.3);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(201, 169, 110, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+        }
+
+        .cta-button-secondary:hover {
+            border-color: var(--accent-gold);
+            background: rgba(201, 169, 110, 0.1);
+        }
+
+        .cta-icon {
+            font-size: 18px;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .contact-item-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 32px 24px;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+
+        /* Floating Elements */
+        .floating-card {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(201, 169, 110, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .floating-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(201, 169, 110, 0.5);
+        }
+
+        .floating-card-icon {
+            font-size: 24px;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Glow Effect */
+        .glow {
+            box-shadow: 0 0 40px rgba(201, 169, 110, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 26px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .about-visual {
+                height: 220px;
+            }
+        }
+
+        @media (min-width: 414px) {
+            .section-container {
+                max-width: 440px;
+            }
+
+            .cta-container {
+                max-width: 440px;
+            }
+        }
+
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(201, 169, 110, 0.3);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
-
-<div class="app-container">
-    <div class="hero">
-        <div class="avatar"></div>
-        <h1>Adriana Páez</h1>
-        <p>Ingeniería Industrial & Eficiencia</p>
+    <!-- Aurora Background -->
+    <div class="aurora-container">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
     </div>
 
-    <div class="btn-group">
-        <a href="tel:+573000000000" class="btn btn-gold">LLAMAR AHORA</a>
-        <a href="https://wa.me/573000000000" class="btn">WHATSAPP</a>
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-logo"></div>
+            <div class="hero-badge">
+                <span>Premium NFC Designer</span>
+            </div>
+            <h1 class="hero-title">
+                Adrià <span>Páez</span>
+            </h1>
+            <p class="hero-subtitle">Diseñador Maestro de Tarjetas NFC Premium</p>
+            <div class="hero-scroll-indicator">
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section about-section">
+            <div class="section-container">
+                <div class="section-label reveal">Sobre Mí</div>
+                <h2 class="section-title reveal">Ingeniería Meets Diseño</h2>
+                <p class="section-description reveal">
+                    Combino la precisión de la ingeniería de procesos industriales con la excelencia del diseño digital premium.
+                </p>
+
+                <div class="about-visual reveal"></div>
+
+                <div class="about-stats reveal">
+                    <div class="stat-card">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Tarjetas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfacción</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5★</div>
+                        <div class="stat-label">Calificación</div>
+                    </div>
+                </div>
+
+                <p class="about-text reveal">
+                    Cada proyecto es una obra de arte digital. No creo tarjetas, creo experiencias que dejan huella.
+                </p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section services-section">
+            <div class="section-container">
+                <div class="section-label reveal">Servicios</div>
+                <h2 class="section-title reveal">Experiencia Premium</h2>
+                <p class="section-description reveal">
+                    Soluciones de diseño que transforman la conexión digital.
+                </p>
+
+                <div class="services-grid">
+                    <div class="service-card reveal">
+                        <div class="service-icon">💳</div>
+                        <h3 class="service-title">Tarjetas NFC Premium</h3>
+                        <p class="service-description">Diseño y desarrollo de tarjetas NFC con experiencias interactivas de nivel mundial.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">✨</div>
+                        <h3 class="service-title">Diseño UI/UX</h3>
+                        <p class="service-description">Interfaces de usuario elegantes que impactan en menos de 3 segundos.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">🎯</div>
+                        <h3 class="service-title">Branding Digital</h3>
+                        <p class="service-description">Identidades visuales premium que transmiten autoridad y confianza.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <div class="service-icon">📱</div>
+                        <h3 class="service-title">Experiencias Mobile</h3>
+                        <p class="service-description">Diseño Mobile First que se siente como una aplicación de lujo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="section process-section">
+            <div class="section-container">
+                <div class="section-label reveal">Proceso</div>
+                <h2 class="section-title reveal">Cómo Creo la Magia</h2>
+                <p class="section-description reveal">
+                    Un proceso meticuloso donde cada detalle cuenta.
+                </p>
+
+                <div class="process-timeline">
+                    <div class="process-step reveal">
+                        <div class="process-step-number">01</div>
+                        <h3 class="process-step-title">Descubrimiento</h3>
+                        <p class="process-step-description">Analizo tu marca, tu audiencia y tus objetivos para crear un concepto único.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-number">02</div>
+                        <h3 class="process-step-title">Conceptualización</h3>
+                        <p class="process-step-description">Desarrollo el concepto creativo y la paleta de colores exclusiva.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-number">03</div>
+                        <h3 class="process-step-title">Diseño</h3>
+                        <p class="process-step-description">Creo cada elemento visual con precisión milimétrica.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-number">04</div>
+                        <h3 class="process-step-title">Desarrollo</h3>
+                        <p class="process-step-description">Implemento la experiencia interactiva con tecnología de vanguardia.</p>
+                    </div>
+                    <div class="process-step reveal">
+                        <div class="process-step-number">05</div>
+                        <h3 class="process-step-title">Lanzamiento</h3>
+                        <p class="process-step-description">Tu tarjeta NFC premium está lista para impresionar al mundo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="section portfolio-section">
+            <div class="section-container">
+                <div class="section-label reveal">Portafolio</div>
+                <h2 class="section-title reveal">Proyectos Destacados</h2>
+                <p class="section-description reveal">
+                    Cada proyecto es una historia de éxito.
+                </p>
+
+                <div class="portfolio-grid">
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-icon">🏭</div>
+                        <div class="portfolio-label">Industria 4.0</div>
+                    </div>
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-icon">💎</div>
+                        <div class="portfolio-label">Luxury</div>
+                    </div>
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-icon">🚀</div>
+                        <div class="portfolio-label">Tech</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="section testimonials-section">
+            <div class="section-container">
+                <div class="section-label reveal">Testimonios</div>
+                <h2 class="section-title reveal">Lo Que Dicen</h2>
+                <p class="section-description reveal">
+                    La satisfacción de mis clientes es mi mayor recompensa.
+                </p>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-quote">"</div>
+                    <p class="testimonial-text">
+                        La tarjeta NFC que creó Adrià superó todas mis expectativas. Es como tener una aplicación exclusiva para mi negocio.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MC</div>
+                        <div>
+                            <div class="testimonial-name">María García</div>
+                            <div class="testimonial-role">CEO, TechStartup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section cta-section">
+            <div class="cta-container">
+                <div class="section-label reveal">Contacto</div>
+                <h2 class="cta-title reveal">Cree Algo Extraordinario</h2>
+                <p class="cta-description reveal">
+                    Transformemos tu presencia digital en una experiencia premium.
+                </p>
+
+                <div class="cta-buttons reveal">
+                    <a href="https://wa.me/34600000000" class="cta-button cta-button-primary">
+                        <span class="cta-icon">💬</span>
+                        <span>Contactar por WhatsApp</span>
+                    </a>
+                    <a href="https://linkedin.com/in/adriapaez" class="cta-button cta-button-secondary">
+                        <span class="cta-icon">💼</span>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+
+                <div class="contact-info reveal">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📧</div>
+                        <span>hola@adriapaez.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📍</div>
+                        <span>España</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-logo">Adrià Páez</div>
+            <p class="footer-text">© 2024 Todos los derechos reservados</p>
+        </footer>
     </div>
 
-    <div class="card-section">
-        <h3 style="color: var(--gold); margin-bottom: 15px;">Conectemos</h3>
-        <div class="grid-social">
-            <div class="icon">in</div>
-            <div class="icon">ig</div>
-            <div class="icon">tw</div>
-            <div class="icon">be</div>
-        </div>
+    <!-- Floating Button -->
+    <div class="floating-card">
+        <span class="floating-card-icon">💬</span>
     </div>
-</div>
 
-<script>
-    // Micro-interacción: Pulsos suaves en botones
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('touchstart', () => btn.style.borderColor = 'white');
-        btn.addEventListener('touchend', () => btn.style.borderColor = 'rgba(212, 175, 55, 0.3)');
-    });
-</script>
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal();
+
+        // Parallax effect on auroras
+        document.addEventListener('mousemove', (e) => {
+            const auroras = document.querySelectorAll('.aurora');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            auroras.forEach((aurora, index) => {
+                const speed = (index + 1) * 10;
+                const moveX = (x - 0.5) * speed;
+                const moveY = (y - 0.5) * speed;
+                aurora.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        // Floating button interaction
+        const floatingBtn = document.querySelector('.floating-card');
+        floatingBtn.addEventListener('click', () => {
+            window.location.href = 'https://wa.me/34600000000';
+        });
+    </script>
 </body>
 </html>
