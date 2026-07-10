@@ -3,93 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarjeta NFC Digital</title>
+    <title>Adriana Páez | Ingeniera Industrial</title>
     <style>
-        :root {
-            --dorado: #D4AF37;
-            --negro: #0A0A0A;
-        }
-
-        body {
-            margin: 0;
-            background-color: var(--negro);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            overflow: hidden;
-        }
-
-        /* Contenedor con borde animado */
-        .card {
-            position: relative;
-            width: 300px;
-            padding: 2px; /* Espesor del borde */
-            background: linear-gradient(45deg, var(--dorado), #000, var(--dorado));
-            border-radius: 15px;
-            text-align: center;
-            animation: borderRotate 3s linear infinite;
-        }
-
-        .card-inner {
-            background: var(--negro);
-            padding: 40px 20px;
-            border-radius: 14px;
-        }
-
-        @keyframes borderRotate {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-
-        h1 { color: var(--dorado); margin-bottom: 5px; }
-        p { opacity: 0.8; margin-bottom: 20px; }
-
-        button {
-            background: transparent;
-            color: var(--dorado);
-            border: 1px solid var(--dorado);
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background: var(--dorado);
-            color: var(--negro);
-        }
+        :root { --dorado: #D4AF37; --negro: #0A0A0A; }
+        body { background: var(--negro); color: white; font-family: 'Helvetica Neue', sans-serif; margin: 0; display: flex; justify-content: center; }
+        
+        .card-container { width: 100%; max-width: 400px; padding: 20px; text-align: center; }
+        
+        .perfil-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--dorado); margin-bottom: 10px; object-fit: cover; }
+        
+        h1 { color: var(--dorado); margin: 5px 0; font-size: 1.5rem; }
+        
+        /* Video/Media */
+        .video-box { width: 100%; height: 200px; background: #1a1a1a; border-radius: 10px; margin: 20px 0; display: flex; align-items: center; justify-content: center; border: 1px solid #333; }
+        
+        /* Botones */
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: transparent; border: 1px solid var(--dorado); color: white; text-decoration: none; border-radius: 8px; transition: 0.3s; font-weight: bold; }
+        .btn:hover { background: var(--dorado); color: var(--negro); }
+        
+        .grid-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="card-inner">
-            <h1>Tu Nombre</h1>
-            <p>Cargo / Profesión</p>
-            <button id="btn-contacto">Guardar Contacto</button>
-        </div>
+<div class="card-container">
+    <img src="foto-adriana.jpg" alt="Adriana Páez" class="perfil-img">
+    <h1>Adriana Páez</h1>
+    <p>Ingeniera Industrial</p>
+
+    <div class="video-box">
+        <!-- Aquí puedes incrustar un iframe de YouTube o un video propio -->
+        <span>Video/Portafolio de Proyectos</span>
     </div>
 
-    <!-- Sonido -->
-    <audio id="sonido-click" src="click.mp3"></audio>
+    <a href="tel:+573000000000" class="btn" onclick="playClick()">📞 LLAMAR AHORA</a>
+    <a href="https://wa.me/573000000000" class="btn" onclick="playClick()">💬 WHATSAPP</a>
 
-    <script>
-        const btn = document.getElementById('btn-contacto');
-        const audio = document.getElementById('sonido-click');
+    <div class="grid-social">
+        <a href="#" class="btn">LinkedIn</a>
+        <a href="#" class="btn">Instagram</a>
+    </div>
+</div>
 
-        btn.addEventListener('click', () => {
-            // Reproducir sonido
-            audio.play().catch(e => console.log("Interacción necesaria para audio"));
-            
-            // Acción de descarga (ejemplo)
-            alert("Descargando archivo VCF...");
-            // window.location.href = 'contacto.vcf'; 
-        });
-    </script>
+<audio id="audio" src="click.mp3"></audio>
+
+<script>
+    function playClick() { document.getElementById('audio').play(); }
+</script>
 </body>
 </html>
