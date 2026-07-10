@@ -2,53 +2,74 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adriana Páez | Ingeniera Industrial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Adriana Páez | Engineering</title>
     <style>
-        :root { --dorado: #D4AF37; --negro: #0A0A0A; }
-        body { background: var(--negro); color: white; font-family: 'Helvetica Neue', sans-serif; margin: 0; display: flex; justify-content: center; }
+        :root {
+            --bg: #0A0A0A;
+            --gold: #D4AF37;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SF Pro Display', -apple-system, sans-serif; }
+        body { background: var(--bg); color: white; display: flex; justify-content: center; overflow-x: hidden; }
         
-        .card-container { width: 100%; max-width: 400px; padding: 20px; text-align: center; }
-        
-        .perfil-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--dorado); margin-bottom: 10px; object-fit: cover; }
-        
-        h1 { color: var(--dorado); margin: 5px 0; font-size: 1.5rem; }
-        
-        /* Video/Media */
-        .video-box { width: 100%; height: 200px; background: #1a1a1a; border-radius: 10px; margin: 20px 0; display: flex; align-items: center; justify-content: center; border: 1px solid #333; }
-        
-        /* Botones */
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: transparent; border: 1px solid var(--dorado); color: white; text-decoration: none; border-radius: 8px; transition: 0.3s; font-weight: bold; }
-        .btn:hover { background: var(--dorado); color: var(--negro); }
-        
-        .grid-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .app-container { width: 100%; max-width: 430px; min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+
+        /* Hero */
+        .hero { margin-top: 60px; text-align: center; }
+        .avatar { width: 140px; height: 140px; border-radius: 30px; background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--gold); margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { font-size: 32px; color: var(--gold); letter-spacing: -1px; }
+        p { font-size: 16px; opacity: 0.7; margin-top: 5px; }
+
+        /* Glass Buttons */
+        .btn-group { width: 100%; margin-top: 40px; display: flex; flex-direction: column; gap: 15px; }
+        .btn { 
+            width: 100%; padding: 18px; background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px;
+            color: white; text-align: center; text-decoration: none; font-weight: 600;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-gold { border-color: var(--gold); color: var(--gold); }
+        .btn-gold:hover { background: var(--gold); color: var(--bg); }
+
+        /* Section Cards */
+        .card-section { width: 100%; margin-top: 30px; padding: 20px; background: var(--glass); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .grid-social { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+        .icon { height: 50px; background: rgba(255,255,255,0.03); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
 
-<div class="card-container">
-    <img src="foto-adriana.jpg" alt="Adriana Páez" class="perfil-img">
-    <h1>Adriana Páez</h1>
-    <p>Ingeniera Industrial</p>
-
-    <div class="video-box">
-        <!-- Aquí puedes incrustar un iframe de YouTube o un video propio -->
-        <span>Video/Portafolio de Proyectos</span>
+<div class="app-container">
+    <div class="hero">
+        <div class="avatar"></div>
+        <h1>Adriana Páez</h1>
+        <p>Ingeniería Industrial & Eficiencia</p>
     </div>
 
-    <a href="tel:+573000000000" class="btn" onclick="playClick()">📞 LLAMAR AHORA</a>
-    <a href="https://wa.me/573000000000" class="btn" onclick="playClick()">💬 WHATSAPP</a>
+    <div class="btn-group">
+        <a href="tel:+573000000000" class="btn btn-gold">LLAMAR AHORA</a>
+        <a href="https://wa.me/573000000000" class="btn">WHATSAPP</a>
+    </div>
 
-    <div class="grid-social">
-        <a href="#" class="btn">LinkedIn</a>
-        <a href="#" class="btn">Instagram</a>
+    <div class="card-section">
+        <h3 style="color: var(--gold); margin-bottom: 15px;">Conectemos</h3>
+        <div class="grid-social">
+            <div class="icon">in</div>
+            <div class="icon">ig</div>
+            <div class="icon">tw</div>
+            <div class="icon">be</div>
+        </div>
     </div>
 </div>
 
-<audio id="audio" src="click.mp3"></audio>
-
 <script>
-    function playClick() { document.getElementById('audio').play(); }
+    // Micro-interacción: Pulsos suaves en botones
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('touchstart', () => btn.style.borderColor = 'white');
+        btn.addEventListener('touchend', () => btn.style.borderColor = 'rgba(212, 175, 55, 0.3)');
+    });
 </script>
 </body>
 </html>
