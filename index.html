@@ -1,224 +1,1467 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Adriana Páez · Ingeniera Industrial</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,.08) 0, transparent 60%),
-                              radial-gradient(ellipse at 80% 50%, rgba(139,92,246,.08) 0, transparent 60%);
-        }
-        .video-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0; overflow: hidden;
-        }
-        .video-bg video {
-            width: 100%; height: 100%; object-fit: cover; opacity: .15;
-        }
-        .video-bg::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(180deg, rgba(10,10,15,.85) 0, rgba(10,10,15,.7) 50%, rgba(10,10,15,.85) 100%);
-        }
-        .card {
-            position: relative; z-index: 1;
-            width: 92%; max-width: 440px;
-            background: rgba(255,255,255,.04);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255,255,255,.06);
-            border-radius: 32px;
-            padding: 40px 28px 32px;
-            text-align: center;
-            box-shadow: 0 25px 80px rgba(0,0,0,.6);
-        }
-        .avatar {
-            width: 120px; height: 120px; border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255,255,255,.1);
-            margin: 0 auto 16px;
-            display: block;
-            background: #1a1a2e;
-            box-shadow: 0 8px 32px rgba(0,0,0,.4);
-        }
-        .card h1 {
-            font-size: 26px; font-weight: 800;
-            background: linear-gradient(135deg, #f0f0ff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .card .title { font-size: 14px; color: #94a3b8; font-weight: 400; margin-top: 2px; }
-        .card .subtitle { font-size: 12px; color: #64748b; font-weight: 300; margin-top: 2px; letter-spacing: .5px; }
-        .divider {
-            width: 48px; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(99,102,241,.5), transparent);
-            margin: 18px auto;
-        }
-        .card .bio { font-size: 13px; color: #94a3b8; line-height: 1.7; margin-bottom: 6px; }
-        .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 18px 0 16px; }
-        .socials a {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 48px; height: 48px; border-radius: 14px;
-            background: rgba(255,255,255,.06);
-            border: 1px solid rgba(255,255,255,.06);
-            color: #e2e8f0; font-size: 20px; text-decoration: none;
-            transition: all .25s ease; cursor: pointer;
-        }
-        .socials a:hover {
-            background: rgba(255,255,255,.12);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,0,0,.3);
-        }
-        .socials a svg { width: 22px; height: 22px; fill: currentColor; }
-        .actions { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 0; }
-        .actions a, .actions button {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; padding: 14px; border-radius: 14px;
-            border: none; font-family: inherit; font-size: 14px; font-weight: 600;
-            text-decoration: none; cursor: pointer; transition: all .25s ease;
-        }
-        .actions .primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 4px 20px rgba(99,102,241,.3); }
-        .actions .primary:hover { transform: scale(1.02); box-shadow: 0 6px 28px rgba(99,102,241,.45); }
-        .actions .secondary { background: rgba(255,255,255,.06); color: #e2e8f0; border: 1px solid rgba(255,255,255,.06); }
-        .actions .secondary:hover { background: rgba(255,255,255,.1); transform: scale(1.02); }
-        .actions .whatsapp { background: #25d366; color: #fff; }
-        .actions .whatsapp:hover { background: #20bd5a; transform: scale(1.02); }
-        .contact { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
-        .contact a { color: #64748b; text-decoration: none; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: color .2s; }
-        .contact a:hover { color: #a5b4fc; }
-        .audio-toggle {
-            position: fixed; top: 20px; right: 20px; z-index: 10;
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255,255,255,.08); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,.08);
-            color: #e2e8f0; font-size: 18px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all .25s;
-        }
-        .audio-toggle:hover { background: rgba(255,255,255,.15); transform: scale(1.05); }
-        .audio-toggle.muted { opacity: .5; }
-        .click-indicator {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 10; background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
-            padding: 6px 16px; border-radius: 20px;
-            font-size: 11px; color: #64748b; pointer-events: none; opacity: 0;
-            transition: opacity .4s;
-        }
-        .click-indicator.show { opacity: 1; }
-        @media (max-width: 480px) {
-            .card { padding: 28px 18px 24px; border-radius: 24px; }
-            .avatar { width: 100px; height: 100px; }
-            .card h1 { font-size: 22px; }
-            .socials a { width: 44px; height: 44px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Zennoa — Publicidad, Merchandising & Marketing Digital</title>
+  <meta name="description" content="Grupo Zennoa: Soluciones integrales de publicidad impresa y digital, merchandising, tecnología NFC, dotación empresarial y marketing digital. Innovación que impulsa tu marca.">
+  <meta name="keywords" content="publicidad, merchandising, gorras personalizadas, camisetas, tarjetas presentación, volantes, pendones, llaveros, NFC, ZenCard, dotación empresarial, bordado, DTF, sublimación, corte láser, tampografía, impresión gran formato, marketing digital">
+  <meta name="author" content="Grupo Zennoa">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://grupozennoa.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Grupo Zennoa — Publicidad, Merchandising & Marketing Digital">
+  <meta property="og:description" content="Soluciones integrales de publicidad y marketing. Innovación que impulsa tu marca.">
+  <meta property="og:image" content="https://grupozennoa.com/og-image.jpg">
+  <meta property="og:url" content="https://grupozennoa.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Grupo Zennoa — Publicidad, Merchandising & Marketing Digital">
+  <meta name="twitter:description" content="Soluciones integrales de publicidad y marketing. Innovación que impulsa tu marca.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="video-bg">
-    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800">
-        <source src="https://cdn.coverr.co/videos/coverr-digital-network-connection-5921/1080p.mp4" type="video/mp4" />
-    </video>
-</div>
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
 
-<button class="audio-toggle" id="audioToggle" title="Encender / Apagar música">♫</button>
-<div class="click-indicator" id="clickIndicator">🔊 Sonido activado</div>
-
-<main class="card">
-    <img class="avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face" alt="Adriana Páez" loading="lazy" />
-    <h1>Adriana Páez</h1>
-    <p class="title">Ingeniera Industrial</p>
-    <p class="subtitle">Optimización · Calidad · Innovación</p>
-    <div class="divider"></div>
-    <p class="bio">Especialista en mejora de procesos, gestión de calidad y transformación digital. Transformo datos en decisiones y procesos en resultados.</p>
-
-    <div class="socials">
-        <a href="https://linkedin.com/in/adrianapaez" target="_blank" rel="noopener" aria-label="LinkedIn" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://wa.me/573001234567?text=Hola%20Adriana%2C%20vi%20tu%20tarjeta%20digital" target="_blank" rel="noopener" aria-label="WhatsApp" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-        </a>
-        <a href="https://instagram.com/adriana.paez" target="_blank" rel="noopener" aria-label="Instagram" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-        </a>
-        <a href="https://youtube.com/@adrianapaez" target="_blank" rel="noopener" aria-label="YouTube" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-        <a href="https://tiktok.com/@adriana.paez" target="_blank" rel="noopener" aria-label="TikTok" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        </a>
-        <a href="https://github.com/adrianapaez" target="_blank" rel="noopener" aria-label="GitHub" class="click-sound">
-            <svg viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-        </a>
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="24" stroke="url(#loaderGrad)" stroke-width="2.5"/>
+          <path d="M16 30L20 22L26 30L32 22L36 30" stroke="url(#loaderGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="loaderGrad" x1="0" y1="0" x2="52" y2="52">
+              <stop offset="0%" stop-color="#0EA5E9"/>
+              <stop offset="100%" stop-color="#8B5CF6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
+      <p class="loader-text">Innovación que impulsa tu marca</p>
     </div>
+  </div>
 
-    <div class="actions">
-        <a href="tel:+573001234567" class="primary click-sound">📞 Llamar ahora</a>
-        <a href="mailto:adriana.paez@email.com" class="secondary click-sound">✉️ Enviar correo</a>
-        <a href="https://wa.me/573001234567?text=Hola%20Adriana%2C%20vi%20tu%20tarjeta%20digital" target="_blank" rel="noopener" class="whatsapp click-sound">💬 WhatsApp</a>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Grupo Zennoa Inicio">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="16" stroke="url(#logoGrad)" stroke-width="2.5"/>
+          <path d="M11 21L14 15L18 21L22 15L25 21" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+              <stop offset="0%" stop-color="#0EA5E9"/>
+              <stop offset="100%" stop-color="#8B5CF6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">Zennoa</span>
+      </a>
+      <div class="nav-menu" id="navMenu" role="menubar">
+        <div class="nav-item" role="none">
+          <button class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" data-mega="services">
+            Servicios
+            <svg class="chevron-down" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="mega-menu" id="megaServices" role="menu">
+            <div class="mega-grid">
+              <div class="mega-col">
+                <span class="mega-title">Impresión</span>
+                <a href="#" class="mega-link">Gran Formato</a>
+                <a href="#" class="mega-link">DTF & Sublimación</a>
+                <a href="#" class="mega-link">Corte Láser</a>
+                <a href="#" class="mega-link">Tampografía</a>
+                <a href="#" class="mega-link">Bordado</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Merchandising</span>
+                <a href="#" class="mega-link">Gorras Personalizadas</a>
+                <a href="#" class="mega-link">Camisetas</a>
+                <a href="#" class="mega-link">Llaveros</a>
+                <a href="#" class="mega-link">Pendones & Volantes</a>
+                <a href="#" class="mega-link">Tarjetas Presentación</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Tecnología</span>
+                <a href="#" class="mega-link">ZenCard NFC</a>
+                <a href="#" class="mega-link">Publicidad Digital</a>
+                <a href="#" class="mega-link">Marketing Digital</a>
+                <a href="#" class="mega-link">Redes Sociales</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Empresarial</span>
+                <a href="#" class="mega-link">Dotación Empresarial</a>
+                <a href="#" class="mega-link">Identidad Corporativa</a>
+                <a href="#" class="mega-link">Papelería Comercial</a>
+                <a href="#" class="mega-link">Regalos Corporativos</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#work" class="nav-link" role="menuitem">Portafolio</a>
+        <a href="#about" class="nav-link" role="menuitem">Nosotros</a>
+        <a href="#contact" class="nav-link" role="menuitem">Contacto</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-sm nav-cta">Cotizar</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+  </nav>
 
-    <div class="contact">
-        <a href="tel:+573001234567">📞 +57 300 123 4567</a>
-        <a href="mailto:adriana.paez@email.com">✉️ adriana.paez@email.com</a>
-        <a href="https://maps.google.com/?q=Bogotá+Colombia" target="_blank" rel="noopener">📍 Bogotá, Colombia</a>
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-bg">
+        <div class="hero-gradient"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-particles" id="particles"></div>
+      </div>
+      <div class="container hero-content">
+        <div class="hero-badge reveal-up">
+          <span class="badge-dot"></span>
+          Innovación que impulsa tu marca
+        </div>
+        <h1 class="hero-title reveal-up" data-delay="100">
+          Publicidad, Merchandising<br>
+          <span class="gradient-text">y Tecnología NFC</span>
+        </h1>
+        <p class="hero-desc reveal-up" data-delay="200">
+          Somos una agencia integral de publicidad impresa y digital. Transformamos tus ideas en 
+          experiencias de marca memorables con soluciones innovadoras, desde merchandising personalizado 
+          hasta tecnología NFC de última generación.
+        </p>
+        <div class="hero-actions reveal-up" data-delay="300">
+          <a href="#contact" class="btn btn-primary btn-lg">
+            Solicitar Cotización
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#work" class="btn btn-ghost btn-lg">Ver Portafolio</a>
+        </div>
+        <div class="hero-stats reveal-up" data-delay="400">
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="1200">0</span>
+            <span class="hero-stat-label">Proyectos Realizados</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="98">0</span>
+            <span class="hero-stat-label">Clientes Satisfechos</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="15">0</span>
+            <span class="hero-stat-label">Años de Experiencia</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="500">0</span>
+            <span class="hero-stat-label">Marcas Impulsadas</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span>Descubre</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <section class="marquee-section" aria-label="Servicios destacados">
+      <div class="marquee">
+        <div class="marquee-track">
+          <span>Impresión Gran Formato</span>
+          <span>DTF</span>
+          <span>Sublimación</span>
+          <span>Corte Láser</span>
+          <span>Tampografía</span>
+          <span>Bordado</span>
+          <span>ZenCard NFC</span>
+          <span>Marketing Digital</span>
+          <span>Merchandising</span>
+          <span>Dotación Empresarial</span>
+          <span>Impresión Gran Formato</span>
+          <span>DTF</span>
+          <span>Sublimación</span>
+          <span>Corte Láser</span>
+          <span>Tampografía</span>
+          <span>Bordado</span>
+          <span>ZenCard NFC</span>
+          <span>Marketing Digital</span>
+          <span>Merchandising</span>
+          <span>Dotación Empresarial</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Nuestros Servicios</span>
+          <h2 class="section-title">Soluciones integrales<br>para <span class="gradient-text">tu marca</span></h2>
+          <p class="section-desc">Cubrimos cada aspecto de la comunicación visual y digital de tu empresa con estándares de calidad premium.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal-up" data-delay="100">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="6" width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 26L18 16L24 26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12H32" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Impresión Gran Formato</h3>
+            <p class="service-desc">Pendones, lonas, vallas, adhesivos y vinilos decorativos con la más alta resolución y durabilidad.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="150">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M8 8H28V24C28 25.1046 27.1046 26 26 26H10C8.89543 26 8 25.1046 8 24V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 22L18 18L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18V30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">DTF & Sublimación</h3>
+            <p class="service-desc">Estampados de alta calidad en todo tipo de textiles. DTF para colores vibrantes y sublimación para detalles perfectos.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="200">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="currentColor" stroke-width="1.5"/><path d="M18 12V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 18H24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Corte Láser & Tampografía</h3>
+            <p class="service-desc">Precisión milimétrica en corte láser para todo tipo de materiales y grabados impecables con tampografía.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="250">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M8 26L12 14L18 22L24 10L28 26H8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="service-title">Bordado Profesional</h3>
+            <p class="service-desc">Bordados de alta definición para gorras, camisetas, chaquetas y dotación empresarial con resultados premium.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="300">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 14H32" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Tarjetas & Papelería</h3>
+            <p class="service-desc">Tarjetas de presentación premium, volantes, flyers, carpetas y toda tu papelería corporativa con acabados exclusivos.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="350">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4L22 12H30L24 18L27 26L18 21L9 26L12 18L6 12H14L18 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="service-title">Merchandising</h3>
+            <p class="service-desc">Gorras personalizadas, camisetas, llaveros, tazas y todo tipo de artículos promocionales para tu marca.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="400">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4V32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 12H30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="4" y="6" width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Dotación Empresarial</h3>
+            <p class="service-desc">Uniformes corporativos, dotación industrial y vestuario empresarial personalizado con tu identidad de marca.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card service-card-featured reveal-up" data-delay="450">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M18 12V18L22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18 6V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18 32V30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 18H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M32 18H30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="service-featured-badge">Nuevo</span>
+            </div>
+            <h3 class="service-title">ZenCard — NFC</h3>
+            <p class="service-desc">Tarjetas inteligentes con tecnología NFC. Comparte tu información al instante. La evolución de la tarjeta de presentación.</p>
+            <a href="#" class="service-link">Descubrir <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="500">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M6 26L10 12L14 20L18 10L22 20L26 12L30 26H6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 30H34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Marketing Digital</h3>
+            <p class="service-desc">Estrategias de marketing digital, redes sociales, publicidad online y contenido que conecta con tu audiencia.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="zencard">
+      <div class="container">
+        <div class="zencard-showcase reveal-up">
+          <div class="zencard-content">
+            <span class="section-tag">Tecnología NFC</span>
+            <h2 class="section-title" style="text-align:left;">ZenCard:<br>La tarjeta <span class="gradient-text">inteligente</span></h2>
+            <p class="zencard-desc">Comparte tu información de contacto, portafolio, redes sociales y más con un solo toque. La ZenCard utiliza tecnología NFC para transformar la forma en que conectas con tus clientes.</p>
+            <ul class="zencard-features">
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Compatible con iOS y Android</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Sin batería ni configuración</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Panel de control en línea</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Diseño personalizable premium</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-lg">
+              Solicitar ZenCard
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="zencard-visual">
+            <div class="zencard-device">
+              <div class="zencard-card">
+                <div class="zencard-card-inner">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/><path d="M13 24L16 18L20 24L24 18L27 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="zencard-card-name">Tu Marca</span>
+                  <span class="zencard-card-nfc">NFC</span>
+                </div>
+              </div>
+              <div class="zencard-waves"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">¿Por qué Zennoa?</span>
+          <h2 class="section-title">Calidad que <span class="gradient-text">distingue</span></h2>
+          <p class="section-desc">Nos comprometemos con la excelencia en cada proyecto, sin importar su tamaño.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal-up" data-delay="100">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L26 8V14C26 20 20 26 14 28C8 26 2 20 2 14V8L14 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <h3>Calidad Premium</h3>
+            <p>Materiales de primera calidad y procesos de producción controlados para resultados impecables.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="200">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M14 10V14L17 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <h3>Entregas Rápidas</h3>
+            <p>Procesos optimizados que garantizan tiempos de entrega competitivos sin sacrificar calidad.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="300">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C8.47715 4 4 8.47715 4 14C4 19.5228 8.47715 24 14 24C19.5228 24 24 19.5228 24 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M20 8L24 4M24 4H20M24 4V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Asesoría Personalizada</h3>
+            <p>Te guiamos en cada paso para elegir las mejores soluciones para tu marca y presupuesto.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="100">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M2 14H6L9 6L13 18L17 10L20 14H26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Tecnología de Punta</h3>
+            <p>Maquinaria actualizada y técnicas innovadoras para resultados que marcan la diferencia.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="200">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L17 9H24.5L18.5 14L21 21.5L14 17L7 21.5L9.5 14L3.5 9H11L14 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Variedad de Soluciones</h3>
+            <p>Un solo proveedor para todas tus necesidades de publicidad, merchandising y marketing.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="300">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4H18L22 8V22C22 23.1046 21.1046 24 20 24H8C6.89543 24 6 23.1046 6 22V8L10 4Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 16L14 18L18 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Garantía de Satisfacción</h3>
+            <p>Tu satisfacción es nuestra prioridad. Respaldo total en cada proyecto que realizamos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="benefits">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Beneficios</span>
+          <h2 class="section-title">Todo en un <span class="gradient-text">solo lugar</span></h2>
+          <p class="section-desc">Simplifica tu gestión de marketing y publicidad con un aliado estratégico integral.</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="100">
+            <div class="benefit-number">01</div>
+            <h3>Ahorra Tiempo</h3>
+            <p>Un solo interlocutor para todas tus necesidades de impresión, merchandising y marketing digital. Olvídate de coordinar múltiples proveedores.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="200">
+            <div class="benefit-number">02</div>
+            <h3>Precios Competitivos</h3>
+            <p>Al optimizar nuestra cadena de producción, te ofrecemos la mejor relación calidad-precio del mercado sin sacrificar excelencia.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="300">
+            <div class="benefit-number">03</div>
+            <h3>Consistencia de Marca</h3>
+            <p>Mantén una identidad visual unificada en todos tus materiales impresos y digitales con nuestra dirección creativa.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="400">
+            <div class="benefit-number">04</div>
+            <h3>Innovación Constante</h3>
+            <p>Accede a las últimas tecnologías como NFC, DTF y técnicas de impresión avanzadas antes que tu competencia.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Proceso</span>
+          <h2 class="section-title">Cómo <span class="gradient-text">trabajamos</span></h2>
+          <p class="section-desc">Un proceso ágil y transparente que convierte tus ideas en resultados tangibles.</p>
+        </div>
+        <div class="process-timeline">
+          <div class="process-step reveal-up" data-delay="100">
+            <div class="process-marker"><span>01</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Contacto & Brief</h3><p>Cuéntanos tu idea, necesidades y expectativas. Entendemos tu marca y tu visión para proponer las mejores soluciones.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="200">
+            <div class="process-marker"><span>02</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Propuesta & Cotización</h3><p>Recibirás una propuesta detallada con opciones, muestras, tiempos de entrega y una cotización transparente sin cargos ocultos.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="300">
+            <div class="process-marker"><span>03</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Producción</h3><p>Ponemos en marcha nuestros equipos y talento para fabricar tus productos con los más altos estándares de calidad.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="400">
+            <div class="process-marker"><span>04</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Entrega & Seguimiento</h3><p>Coordinamos la entrega en tiempo y forma, y damos seguimiento para asegurar tu satisfacción total con el resultado.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark stats-section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal-up" data-delay="100">
+            <span class="stat-number gradient-text" data-target="1200">0</span>
+            <span class="stat-label">Proyectos Completados</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="200">
+            <span class="stat-number gradient-text" data-target="98">0</span>
+            <span class="stat-label">% Satisfacción</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="300">
+            <span class="stat-number gradient-text" data-target="15">0</span>
+            <span class="stat-label">Años de Experiencia</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="400">
+            <span class="stat-number gradient-text" data-target="500">0</span>
+            <span class="stat-label">Marcas Impulsadas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Portafolio</span>
+          <h2 class="section-title">Nuestros <span class="gradient-text">proyectos</span></h2>
+          <p class="section-desc">Cada proyecto cuenta una historia de colaboración, creatividad y resultados excepcionales.</p>
+        </div>
+      </div>
+      <div class="portfolio-grid">
+        <figure class="portfolio-item reveal-up" data-delay="100">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #0EA5E9, #6366F1);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Merchandising</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Colección Corporativa</h3><p>Gorras, camisetas y accesorios personalizados</p></figcaption>
+        </figure>
+        <figure class="portfolio-item portfolio-item-wide reveal-up" data-delay="200">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Tecnología NFC</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>ZenCard — Lanzamiento</h3><p>Tarjetas inteligentes NFC para ventas corporativas</p></figcaption>
+        </figure>
+        <figure class="portfolio-item reveal-up" data-delay="100">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #10B981, #06B6D4);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Impresión Gran Formato</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Campaña Visual Ciudad</h3><p>Pendones, vallas y vinilos exteriores</p></figcaption>
+        </figure>
+        <figure class="portfolio-item reveal-up" data-delay="200">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #F59E0B, #EF4444);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Dotación</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Uniformes Corporativos</h3><p>Dotación completa para empresa de tecnología</p></figcaption>
+        </figure>
+        <figure class="portfolio-item portfolio-item-wide reveal-up" data-delay="300">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #6366F1, #0EA5E9);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Papelería Premium</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Identidad Corporativa</h3><p>Tarjetas, carpetas y papelería ejecutiva</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Testimonios</span>
+          <h2 class="section-title">Lo que dicen <span class="gradient-text">nuestros clientes</span></h2>
+          <p class="section-desc">La satisfacción de quienes confían en nosotros es nuestro mejor aval.</p>
+        </div>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial-card reveal-up" data-delay="100">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"Grupo Zennoa transformó nuestra imagen corporativa. La calidad de los bordados en nuestras gorras y camisetas es simplemente excepcional. Nuestro equipo está encantado con los resultados."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #0EA5E9, #6366F1);">CR</div>
+              <div><cite class="testimonial-name">Carlos Restrepo</cite><span class="testimonial-role">Director de Marketing, TecnoGroup</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal-up" data-delay="200">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"La ZenCard NFC revolucionó nuestra forma de hacer networking en ferias. Compartimos información al instante y el diseño es increíblemente profesional. Altamente recomendados."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #EC4899, #F43F5E);">ML</div>
+              <div><cite class="testimonial-name">Mariana López</cite><span class="testimonial-role">CEO, Innova Ventures</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal-up" data-delay="300">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"Necesitábamos uniformes corporativos y materiales publicitarios para un lanzamiento importante. Zennoa cumplió con tiempos récord y una calidad que superó nuestras expectativas."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #10B981, #06B6D4);">AR</div>
+              <div><cite class="testimonial-name">Andrés Rivera</cite><span class="testimonial-role">Gerente de Operaciones, BuildCorp</span></div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="faq">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">FAQ</span>
+          <h2 class="section-title">Preguntas <span class="gradient-text">frecuentes</span></h2>
+          <p class="section-desc">Resolvemos tus dudas sobre nuestros servicios y procesos.</p>
+        </div>
+        <div class="faq-list reveal-up" role="list">
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cuánto tiempo toma producir mi pedido?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Los tiempos varían según el tipo de producto y la cantidad. Generalmente, para tarjetas de presentación y volantes trabajamos de 2 a 3 días hábiles. Para merchandising y dotación, de 5 a 10 días hábiles. Te daremos un plazo exacto en tu cotización.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cuál es la cantidad mínima de pedido?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Trabajamos con todo tipo de volúmenes. Desde pequeñas cantidades para emprendedores hasta grandes producciones para empresas. Contáctanos y te ofreceremos la mejor opción para tu necesidad específica.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Ofrecen servicios de diseño gráfico?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Sí, contamos con un equipo de diseñadores gráficos que pueden crear tus piezas desde cero o adaptar tus archivos para producción. Incluimos servicio de diseño en la mayoría de nuestros proyectos.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cómo funciona la ZenCard NFC?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>La ZenCard incorpora un chip NFC que almacena tu información de contacto profesional. Al acercarla a un smartphone compatible, la información se transfiere instantáneamente sin necesidad de apps ni configuración. Incluye panel web para actualizar tu contenido en tiempo real.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Hacen envíos a todo el país?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Sí, realizamos envíos a nivel nacional a través de nuestras alianzas logísticas. Coordinamos la entrega en la puerta de tu oficina o donde necesites. Los costos de envío se incluyen en la cotización.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section" id="cta">
+      <div class="container">
+        <div class="cta-card reveal-up">
+          <div class="cta-bg"></div>
+          <h2 class="cta-title">¿Listo para impulsar<br><span class="gradient-text">tu marca</span>?</h2>
+          <p class="cta-desc">Solicita una cotización sin compromiso y descubre cómo podemos transformar tus ideas en realidades que impactan.</p>
+          <div class="cta-actions">
+            <a href="#contact" class="btn btn-primary btn-lg">Cotizar Ahora<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="tel:+573001234567" class="btn btn-glass btn-lg">Llámanos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal-up">
+            <span class="section-tag">Contacto</span>
+            <h2 class="section-title" style="text-align:left;">Hablemos de tu <span class="gradient-text">proyecto</span></h2>
+            <p class="contact-desc">Cuéntanos qué necesitas y te enviaremos una cotización personalizada en menos de 24 horas.</p>
+            <div class="contact-details">
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6L10 11L18 6V16C18 16.5523 17.5523 17 17 17H3C2.44772 17 2 16.5523 2 16V6Z" stroke="currentColor" stroke-width="1.5"/><path d="M2 6L10 11L18 6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                <div><strong>Email</strong><span>contacto@grupozennoa.com</span></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 14V15.5C17.5 16.3284 16.8284 17 16 17H4C3.17157 17 2.5 16.3284 2.5 15.5V14" stroke="currentColor" stroke-width="1.5"/><path d="M10 11V1M10 1L6 5M10 1L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><strong>Ubicación</strong><span>Medellín, Colombia</span></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 4C2 2.89543 2.89543 2 4 2H16C17.1046 2 18 2.89543 18 4V16C18 17.1046 17.1046 18 16 18H4C2.89543 18 2 17.1046 2 16V4Z" stroke="currentColor" stroke-width="1.5"/><path d="M2 6L10 11L18 6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                <div><strong>WhatsApp</strong><span>+57 300 123 4567</span></div>
+              </div>
+            </div>
+          </div>
+          <form class="contact-form reveal-up" data-delay="200" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input type="text" id="name" name="name" required placeholder="Juan Pérez" autocomplete="name">
+                <span class="form-error" role="alert"></span>
+              </div>
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="juan@empresa.com" autocomplete="email">
+                <span class="form-error" role="alert"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" name="phone" placeholder="+57 300 123 4567" autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label for="service">Servicio de interés</label>
+                <select id="service" name="service">
+                  <option value="">Selecciona un servicio</option>
+                  <option value="impresion">Impresión Gran Formato</option>
+                  <option value="merchandising">Merchandising</option>
+                  <option value="textiles">Textiles (Gorras, Camisetas)</option>
+                  <option value="papeleria">Papelería Corporativa</option>
+                  <option value="zencard">ZenCard NFC</option>
+                  <option value="dotacion">Dotación Empresarial</option>
+                  <option value="marketing">Marketing Digital</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="message">Cuéntanos tu proyecto</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Describe tu proyecto, cantidades, colores, fechas estimadas..."></textarea>
+              <span class="form-error" role="alert"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+              Solicitar Cotización
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section" aria-label="Ubicación">
+      <div class="map-container">
+        <div class="map-placeholder">
+          <div class="map-overlay-content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span>Medellín, Colombia</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="Grupo Zennoa Inicio">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="14" stroke="url(#footerGrad)" stroke-width="2"/>
+              <path d="M10 20L13 15L16 20L19 15L22 20" stroke="url(#footerGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="footerGrad" x1="0" y1="0" x2="32" y2="32">
+                  <stop offset="0%" stop-color="#0EA5E9"/>
+                  <stop offset="100%" stop-color="#8B5CF6"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="logo-text">Grupo Zennoa</span>
+          </a>
+          <p class="footer-desc">Innovación que impulsa tu marca. Soluciones integrales de publicidad, merchandising, tecnología NFC y marketing digital.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            <a href="#" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Servicios</h4>
+          <a href="#" class="footer-link">Impresión Gran Formato</a>
+          <a href="#" class="footer-link">DTF & Sublimación</a>
+          <a href="#" class="footer-link">Corte Láser & Tampografía</a>
+          <a href="#" class="footer-link">Bordado Profesional</a>
+          <a href="#" class="footer-link">Merchandising</a>
+          <a href="#" class="footer-link">ZenCard NFC</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Empresa</h4>
+          <a href="#" class="footer-link">Nosotros</a>
+          <a href="#" class="footer-link">Portafolio</a>
+          <a href="#" class="footer-link">Blog</a>
+          <a href="#" class="footer-link">Trabaja con Nosotros</a>
+          <a href="#" class="footer-link">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Atención</h4>
+          <a href="#" class="footer-link">Centro de Ayuda</a>
+          <a href="#" class="footer-link">Política de Privacidad</a>
+          <a href="#" class="footer-link">Términos del Servicio</a>
+          <a href="#" class="footer-link">Política de Cookies</a>
+          <a href="#" class="footer-link">Garantía</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Grupo Zennoa. Todos los derechos reservados.</p>
+        <p>Innovación que impulsa tu marca — Medellín, Colombia</p>
+      </div>
     </div>
-</main>
+  </footer>
 
-<audio id="bgAudio" loop preload="auto">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-</audio>
-<audio id="clickSound" preload="auto">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" type="audio/mpeg" />
-</audio>
+  <div class="whatsapp-float" id="whatsappFloat" role="button" aria-label="Contactar por WhatsApp" tabindex="0">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </div>
 
-<script>
-    (function() {
-        const bgAudio = document.getElementById('bgAudio');
-        const clickSound = document.getElementById('clickSound');
-        const toggleBtn = document.getElementById('audioToggle');
-        const indicator = document.getElementById('clickIndicator');
-        let isMuted = true;
-        bgAudio.volume = 0.25;
-        clickSound.volume = 0.4;
-        toggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (isMuted) {
-                bgAudio.play().catch(() => {});
-                toggleBtn.classList.remove('muted');
-                toggleBtn.textContent = '♫';
-                isMuted = false;
-            } else {
-                bgAudio.pause();
-                toggleBtn.classList.add('muted');
-                toggleBtn.textContent = '♪';
-                isMuted = true;
-            }
-        });
-        document.querySelectorAll('.click-sound').forEach(el => {
-            el.addEventListener('click', function() {
-                clickSound.currentTime = 0;
-                clickSound.play().catch(() => {});
-                indicator.classList.add('show');
-                clearTimeout(indicator._timeout);
-                indicator._timeout = setTimeout(() => indicator.classList.remove('show'), 800);
-            });
-        });
-        document.addEventListener('click', function initAudio() {
-            if (bgAudio.paused && !isMuted) bgAudio.play().catch(() => {});
-        }, { once: true });
-    })();
-</script>
+  <div class="back-to-top" id="backToTop" role="button" aria-label="Volver arriba" tabindex="0">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 15V3M9 3L4 8M9 3L14 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Zennoa — Publicidad, Merchandising & Marketing Digital</title>
+  <meta name="description" content="Grupo Zennoa: Soluciones integrales de publicidad impresa y digital, merchandising, tecnología NFC, dotación empresarial y marketing digital. Innovación que impulsa tu marca.">
+  <meta name="keywords" content="publicidad, merchandising, gorras personalizadas, camisetas, tarjetas presentación, volantes, pendones, llaveros, NFC, ZenCard, dotación empresarial, bordado, DTF, sublimación, corte láser, tampografía, impresión gran formato, marketing digital">
+  <meta name="author" content="Grupo Zennoa">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://grupozennoa.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Grupo Zennoa — Publicidad, Merchandising & Marketing Digital">
+  <meta property="og:description" content="Soluciones integrales de publicidad y marketing. Innovación que impulsa tu marca.">
+  <meta property="og:image" content="https://grupozennoa.com/og-image.jpg">
+  <meta property="og:url" content="https://grupozennoa.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Grupo Zennoa — Publicidad, Merchandising & Marketing Digital">
+  <meta name="twitter:description" content="Soluciones integrales de publicidad y marketing. Innovación que impulsa tu marca.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <div id="loader">
+    <div class="loader-content">
+      <div class="loader-logo">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="24" stroke="url(#loaderGrad)" stroke-width="2.5"/>
+          <path d="M16 30L20 22L26 30L32 22L36 30" stroke="url(#loaderGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="loaderGrad" x1="0" y1="0" x2="52" y2="52">
+              <stop offset="0%" stop-color="#0EA5E9"/>
+              <stop offset="100%" stop-color="#8B5CF6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
+      <p class="loader-text">Innovación que impulsa tu marca</p>
+    </div>
+  </div>
+
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Grupo Zennoa Inicio">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="16" stroke="url(#logoGrad)" stroke-width="2.5"/>
+          <path d="M11 21L14 15L18 21L22 15L25 21" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+              <stop offset="0%" stop-color="#0EA5E9"/>
+              <stop offset="100%" stop-color="#8B5CF6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">Zennoa</span>
+      </a>
+      <div class="nav-menu" id="navMenu" role="menubar">
+        <div class="nav-item" role="none">
+          <button class="nav-link" role="menuitem" aria-haspopup="true" aria-expanded="false" data-mega="services">
+            Servicios
+            <svg class="chevron-down" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <div class="mega-menu" id="megaServices" role="menu">
+            <div class="mega-grid">
+              <div class="mega-col">
+                <span class="mega-title">Impresión</span>
+                <a href="#" class="mega-link">Gran Formato</a>
+                <a href="#" class="mega-link">DTF & Sublimación</a>
+                <a href="#" class="mega-link">Corte Láser</a>
+                <a href="#" class="mega-link">Tampografía</a>
+                <a href="#" class="mega-link">Bordado</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Merchandising</span>
+                <a href="#" class="mega-link">Gorras Personalizadas</a>
+                <a href="#" class="mega-link">Camisetas</a>
+                <a href="#" class="mega-link">Llaveros</a>
+                <a href="#" class="mega-link">Pendones & Volantes</a>
+                <a href="#" class="mega-link">Tarjetas Presentación</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Tecnología</span>
+                <a href="#" class="mega-link">ZenCard NFC</a>
+                <a href="#" class="mega-link">Publicidad Digital</a>
+                <a href="#" class="mega-link">Marketing Digital</a>
+                <a href="#" class="mega-link">Redes Sociales</a>
+              </div>
+              <div class="mega-col">
+                <span class="mega-title">Empresarial</span>
+                <a href="#" class="mega-link">Dotación Empresarial</a>
+                <a href="#" class="mega-link">Identidad Corporativa</a>
+                <a href="#" class="mega-link">Papelería Comercial</a>
+                <a href="#" class="mega-link">Regalos Corporativos</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#work" class="nav-link" role="menuitem">Portafolio</a>
+        <a href="#about" class="nav-link" role="menuitem">Nosotros</a>
+        <a href="#contact" class="nav-link" role="menuitem">Contacto</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-sm nav-cta">Cotizar</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-bg">
+        <div class="hero-gradient"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-particles" id="particles"></div>
+      </div>
+      <div class="container hero-content">
+        <div class="hero-badge reveal-up">
+          <span class="badge-dot"></span>
+          Innovación que impulsa tu marca
+        </div>
+        <h1 class="hero-title reveal-up" data-delay="100">
+          Publicidad, Merchandising<br>
+          <span class="gradient-text">y Tecnología NFC</span>
+        </h1>
+        <p class="hero-desc reveal-up" data-delay="200">
+          Somos una agencia integral de publicidad impresa y digital. Transformamos tus ideas en 
+          experiencias de marca memorables con soluciones innovadoras, desde merchandising personalizado 
+          hasta tecnología NFC de última generación.
+        </p>
+        <div class="hero-actions reveal-up" data-delay="300">
+          <a href="#contact" class="btn btn-primary btn-lg">
+            Solicitar Cotización
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#work" class="btn btn-ghost btn-lg">Ver Portafolio</a>
+        </div>
+        <div class="hero-stats reveal-up" data-delay="400">
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="1200">0</span>
+            <span class="hero-stat-label">Proyectos Realizados</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="98">0</span>
+            <span class="hero-stat-label">Clientes Satisfechos</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="15">0</span>
+            <span class="hero-stat-label">Años de Experiencia</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-target="500">0</span>
+            <span class="hero-stat-label">Marcas Impulsadas</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span>Descubre</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <section class="marquee-section" aria-label="Servicios destacados">
+      <div class="marquee">
+        <div class="marquee-track">
+          <span>Impresión Gran Formato</span>
+          <span>DTF</span>
+          <span>Sublimación</span>
+          <span>Corte Láser</span>
+          <span>Tampografía</span>
+          <span>Bordado</span>
+          <span>ZenCard NFC</span>
+          <span>Marketing Digital</span>
+          <span>Merchandising</span>
+          <span>Dotación Empresarial</span>
+          <span>Impresión Gran Formato</span>
+          <span>DTF</span>
+          <span>Sublimación</span>
+          <span>Corte Láser</span>
+          <span>Tampografía</span>
+          <span>Bordado</span>
+          <span>ZenCard NFC</span>
+          <span>Marketing Digital</span>
+          <span>Merchandising</span>
+          <span>Dotación Empresarial</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Nuestros Servicios</span>
+          <h2 class="section-title">Soluciones integrales<br>para <span class="gradient-text">tu marca</span></h2>
+          <p class="section-desc">Cubrimos cada aspecto de la comunicación visual y digital de tu empresa con estándares de calidad premium.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card reveal-up" data-delay="100">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="6" width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 26L18 16L24 26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 12H32" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Impresión Gran Formato</h3>
+            <p class="service-desc">Pendones, lonas, vallas, adhesivos y vinilos decorativos con la más alta resolución y durabilidad.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="150">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M8 8H28V24C28 25.1046 27.1046 26 26 26H10C8.89543 26 8 25.1046 8 24V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 22L18 18L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 18V30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">DTF & Sublimación</h3>
+            <p class="service-desc">Estampados de alta calidad en todo tipo de textiles. DTF para colores vibrantes y sublimación para detalles perfectos.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="200">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="12" stroke="currentColor" stroke-width="1.5"/><path d="M18 12V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 18H24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Corte Láser & Tampografía</h3>
+            <p class="service-desc">Precisión milimétrica en corte láser para todo tipo de materiales y grabados impecables con tampografía.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="250">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M8 26L12 14L18 22L24 10L28 26H8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="service-title">Bordado Profesional</h3>
+            <p class="service-desc">Bordados de alta definición para gorras, camisetas, chaquetas y dotación empresarial con resultados premium.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="300">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 14H32" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Tarjetas & Papelería</h3>
+            <p class="service-desc">Tarjetas de presentación premium, volantes, flyers, carpetas y toda tu papelería corporativa con acabados exclusivos.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="350">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4L22 12H30L24 18L27 26L18 21L9 26L12 18L6 12H14L18 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="service-title">Merchandising</h3>
+            <p class="service-desc">Gorras personalizadas, camisetas, llaveros, tazas y todo tipo de artículos promocionales para tu marca.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="400">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4V32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 12H30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="4" y="6" width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3 class="service-title">Dotación Empresarial</h3>
+            <p class="service-desc">Uniformes corporativos, dotación industrial y vestuario empresarial personalizado con tu identidad de marca.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+          <article class="service-card service-card-featured reveal-up" data-delay="450">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M18 12V18L22 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18 6V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M18 32V30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 18H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M32 18H30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="service-featured-badge">Nuevo</span>
+            </div>
+            <h3 class="service-title">ZenCard — NFC</h3>
+            <p class="service-desc">Tarjetas inteligentes con tecnología NFC. Comparte tu información al instante. La evolución de la tarjeta de presentación.</p>
+            <a href="#" class="service-link">Descubrir <span>→</span></a>
+          </article>
+          <article class="service-card reveal-up" data-delay="500">
+            <div class="service-icon">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M6 26L10 12L14 20L18 10L22 20L26 12L30 26H6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 30H34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="service-title">Marketing Digital</h3>
+            <p class="service-desc">Estrategias de marketing digital, redes sociales, publicidad online y contenido que conecta con tu audiencia.</p>
+            <a href="#" class="service-link">Ver más <span>→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="zencard">
+      <div class="container">
+        <div class="zencard-showcase reveal-up">
+          <div class="zencard-content">
+            <span class="section-tag">Tecnología NFC</span>
+            <h2 class="section-title" style="text-align:left;">ZenCard:<br>La tarjeta <span class="gradient-text">inteligente</span></h2>
+            <p class="zencard-desc">Comparte tu información de contacto, portafolio, redes sociales y más con un solo toque. La ZenCard utiliza tecnología NFC para transformar la forma en que conectas con tus clientes.</p>
+            <ul class="zencard-features">
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Compatible con iOS y Android</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Sin batería ni configuración</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Panel de control en línea</li>
+              <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Diseño personalizable premium</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-lg">
+              Solicitar ZenCard
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="zencard-visual">
+            <div class="zencard-device">
+              <div class="zencard-card">
+                <div class="zencard-card-inner">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2"/><path d="M13 24L16 18L20 24L24 18L27 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="zencard-card-name">Tu Marca</span>
+                  <span class="zencard-card-nfc">NFC</span>
+                </div>
+              </div>
+              <div class="zencard-waves"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">¿Por qué Zennoa?</span>
+          <h2 class="section-title">Calidad que <span class="gradient-text">distingue</span></h2>
+          <p class="section-desc">Nos comprometemos con la excelencia en cada proyecto, sin importar su tamaño.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal-up" data-delay="100">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L26 8V14C26 20 20 26 14 28C8 26 2 20 2 14V8L14 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+            <h3>Calidad Premium</h3>
+            <p>Materiales de primera calidad y procesos de producción controlados para resultados impecables.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="200">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M14 10V14L17 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <h3>Entregas Rápidas</h3>
+            <p>Procesos optimizados que garantizan tiempos de entrega competitivos sin sacrificar calidad.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="300">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4C8.47715 4 4 8.47715 4 14C4 19.5228 8.47715 24 14 24C19.5228 24 24 19.5228 24 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M20 8L24 4M24 4H20M24 4V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Asesoría Personalizada</h3>
+            <p>Te guiamos en cada paso para elegir las mejores soluciones para tu marca y presupuesto.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="100">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M2 14H6L9 6L13 18L17 10L20 14H26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Tecnología de Punta</h3>
+            <p>Maquinaria actualizada y técnicas innovadoras para resultados que marcan la diferencia.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="200">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L17 9H24.5L18.5 14L21 21.5L14 17L7 21.5L9.5 14L3.5 9H11L14 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Variedad de Soluciones</h3>
+            <p>Un solo proveedor para todas tus necesidades de publicidad, merchandising y marketing.</p>
+          </div>
+          <div class="feature-card reveal-up" data-delay="300">
+            <div class="feature-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4H18L22 8V22C22 23.1046 21.1046 24 20 24H8C6.89543 24 6 23.1046 6 22V8L10 4Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 16L14 18L18 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Garantía de Satisfacción</h3>
+            <p>Tu satisfacción es nuestra prioridad. Respaldo total en cada proyecto que realizamos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="benefits">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Beneficios</span>
+          <h2 class="section-title">Todo en un <span class="gradient-text">solo lugar</span></h2>
+          <p class="section-desc">Simplifica tu gestión de marketing y publicidad con un aliado estratégico integral.</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="100">
+            <div class="benefit-number">01</div>
+            <h3>Ahorra Tiempo</h3>
+            <p>Un solo interlocutor para todas tus necesidades de impresión, merchandising y marketing digital. Olvídate de coordinar múltiples proveedores.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="200">
+            <div class="benefit-number">02</div>
+            <h3>Precios Competitivos</h3>
+            <p>Al optimizar nuestra cadena de producción, te ofrecemos la mejor relación calidad-precio del mercado sin sacrificar excelencia.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="300">
+            <div class="benefit-number">03</div>
+            <h3>Consistencia de Marca</h3>
+            <p>Mantén una identidad visual unificada en todos tus materiales impresos y digitales con nuestra dirección creativa.</p>
+          </div>
+          <div class="benefit-card benefit-card-accent reveal-up" data-delay="400">
+            <div class="benefit-number">04</div>
+            <h3>Innovación Constante</h3>
+            <p>Accede a las últimas tecnologías como NFC, DTF y técnicas de impresión avanzadas antes que tu competencia.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Proceso</span>
+          <h2 class="section-title">Cómo <span class="gradient-text">trabajamos</span></h2>
+          <p class="section-desc">Un proceso ágil y transparente que convierte tus ideas en resultados tangibles.</p>
+        </div>
+        <div class="process-timeline">
+          <div class="process-step reveal-up" data-delay="100">
+            <div class="process-marker"><span>01</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Contacto & Brief</h3><p>Cuéntanos tu idea, necesidades y expectativas. Entendemos tu marca y tu visión para proponer las mejores soluciones.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="200">
+            <div class="process-marker"><span>02</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Propuesta & Cotización</h3><p>Recibirás una propuesta detallada con opciones, muestras, tiempos de entrega y una cotización transparente sin cargos ocultos.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="300">
+            <div class="process-marker"><span>03</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Producción</h3><p>Ponemos en marcha nuestros equipos y talento para fabricar tus productos con los más altos estándares de calidad.</p></div>
+          </div>
+          <div class="process-step reveal-up" data-delay="400">
+            <div class="process-marker"><span>04</span><div class="process-line"></div></div>
+            <div class="process-content"><h3>Entrega & Seguimiento</h3><p>Coordinamos la entrega en tiempo y forma, y damos seguimiento para asegurar tu satisfacción total con el resultado.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark stats-section" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal-up" data-delay="100">
+            <span class="stat-number gradient-text" data-target="1200">0</span>
+            <span class="stat-label">Proyectos Completados</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="200">
+            <span class="stat-number gradient-text" data-target="98">0</span>
+            <span class="stat-label">% Satisfacción</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="300">
+            <span class="stat-number gradient-text" data-target="15">0</span>
+            <span class="stat-label">Años de Experiencia</span>
+          </div>
+          <div class="stat-item reveal-up" data-delay="400">
+            <span class="stat-number gradient-text" data-target="500">0</span>
+            <span class="stat-label">Marcas Impulsadas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Portafolio</span>
+          <h2 class="section-title">Nuestros <span class="gradient-text">proyectos</span></h2>
+          <p class="section-desc">Cada proyecto cuenta una historia de colaboración, creatividad y resultados excepcionales.</p>
+        </div>
+      </div>
+      <div class="portfolio-grid">
+        <figure class="portfolio-item reveal-up" data-delay="100">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #0EA5E9, #6366F1);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Merchandising</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Colección Corporativa</h3><p>Gorras, camisetas y accesorios personalizados</p></figcaption>
+        </figure>
+        <figure class="portfolio-item portfolio-item-wide reveal-up" data-delay="200">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #8B5CF6, #EC4899);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Tecnología NFC</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>ZenCard — Lanzamiento</h3><p>Tarjetas inteligentes NFC para ventas corporativas</p></figcaption>
+        </figure>
+        <figure class="portfolio-item reveal-up" data-delay="100">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #10B981, #06B6D4);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Impresión Gran Formato</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Campaña Visual Ciudad</h3><p>Pendones, vallas y vinilos exteriores</p></figcaption>
+        </figure>
+        <figure class="portfolio-item reveal-up" data-delay="200">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #F59E0B, #EF4444);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Dotación</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Uniformes Corporativos</h3><p>Dotación completa para empresa de tecnología</p></figcaption>
+        </figure>
+        <figure class="portfolio-item portfolio-item-wide reveal-up" data-delay="300">
+          <div class="portfolio-image">
+            <div class="portfolio-placeholder" style="background: linear-gradient(135deg, #6366F1, #0EA5E9);">
+              <div class="portfolio-pattern"></div>
+              <span class="portfolio-label">Papelería Premium</span>
+            </div>
+          </div>
+          <figcaption class="portfolio-info"><h3>Identidad Corporativa</h3><p>Tarjetas, carpetas y papelería ejecutiva</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">Testimonios</span>
+          <h2 class="section-title">Lo que dicen <span class="gradient-text">nuestros clientes</span></h2>
+          <p class="section-desc">La satisfacción de quienes confían en nosotros es nuestro mejor aval.</p>
+        </div>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial-card reveal-up" data-delay="100">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"Grupo Zennoa transformó nuestra imagen corporativa. La calidad de los bordados en nuestras gorras y camisetas es simplemente excepcional. Nuestro equipo está encantado con los resultados."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #0EA5E9, #6366F1);">CR</div>
+              <div><cite class="testimonial-name">Carlos Restrepo</cite><span class="testimonial-role">Director de Marketing, TecnoGroup</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal-up" data-delay="200">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"La ZenCard NFC revolucionó nuestra forma de hacer networking en ferias. Compartimos información al instante y el diseño es increíblemente profesional. Altamente recomendados."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #EC4899, #F43F5E);">ML</div>
+              <div><cite class="testimonial-name">Mariana López</cite><span class="testimonial-role">CEO, Innova Ventures</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal-up" data-delay="300">
+            <div class="testimonial-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+            <p class="testimonial-text">"Necesitábamos uniformes corporativos y materiales publicitarios para un lanzamiento importante. Zennoa cumplió con tiempos récord y una calidad que superó nuestras expectativas."</p>
+            <footer class="testimonial-author">
+              <div class="testimonial-avatar" style="background: linear-gradient(135deg, #10B981, #06B6D4);">AR</div>
+              <div><cite class="testimonial-name">Andrés Rivera</cite><span class="testimonial-role">Gerente de Operaciones, BuildCorp</span></div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="faq">
+      <div class="container">
+        <div class="section-header reveal-up">
+          <span class="section-tag">FAQ</span>
+          <h2 class="section-title">Preguntas <span class="gradient-text">frecuentes</span></h2>
+          <p class="section-desc">Resolvemos tus dudas sobre nuestros servicios y procesos.</p>
+        </div>
+        <div class="faq-list reveal-up" role="list">
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cuánto tiempo toma producir mi pedido?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Los tiempos varían según el tipo de producto y la cantidad. Generalmente, para tarjetas de presentación y volantes trabajamos de 2 a 3 días hábiles. Para merchandising y dotación, de 5 a 10 días hábiles. Te daremos un plazo exacto en tu cotización.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cuál es la cantidad mínima de pedido?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Trabajamos con todo tipo de volúmenes. Desde pequeñas cantidades para emprendedores hasta grandes producciones para empresas. Contáctanos y te ofreceremos la mejor opción para tu necesidad específica.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Ofrecen servicios de diseño gráfico?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Sí, contamos con un equipo de diseñadores gráficos que pueden crear tus piezas desde cero o adaptar tus archivos para producción. Incluimos servicio de diseño en la mayoría de nuestros proyectos.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Cómo funciona la ZenCard NFC?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>La ZenCard incorpora un chip NFC que almacena tu información de contacto profesional. Al acercarla a un smartphone compatible, la información se transfiere instantáneamente sin necesidad de apps ni configuración. Incluye panel web para actualizar tu contenido en tiempo real.</p></div>
+          </details>
+          <details class="faq-item" role="listitem">
+            <summary class="faq-question"><span>¿Hacen envíos a todo el país?</span><svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8L10 13L15 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+            <div class="faq-answer"><p>Sí, realizamos envíos a nivel nacional a través de nuestras alianzas logísticas. Coordinamos la entrega en la puerta de tu oficina o donde necesites. Los costos de envío se incluyen en la cotización.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section" id="cta">
+      <div class="container">
+        <div class="cta-card reveal-up">
+          <div class="cta-bg"></div>
+          <h2 class="cta-title">¿Listo para impulsar<br><span class="gradient-text">tu marca</span>?</h2>
+          <p class="cta-desc">Solicita una cotización sin compromiso y descubre cómo podemos transformar tus ideas en realidades que impactan.</p>
+          <div class="cta-actions">
+            <a href="#contact" class="btn btn-primary btn-lg">Cotizar Ahora<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="tel:+573001234567" class="btn btn-glass btn-lg">Llámanos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal-up">
+            <span class="section-tag">Contacto</span>
+            <h2 class="section-title" style="text-align:left;">Hablemos de tu <span class="gradient-text">proyecto</span></h2>
+            <p class="contact-desc">Cuéntanos qué necesitas y te enviaremos una cotización personalizada en menos de 24 horas.</p>
+            <div class="contact-details">
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 6L10 11L18 6V16C18 16.5523 17.5523 17 17 17H3C2.44772 17 2 16.5523 2 16V6Z" stroke="currentColor" stroke-width="1.5"/><path d="M2 6L10 11L18 6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                <div><strong>Email</strong><span>contacto@grupozennoa.com</span></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 14V15.5C17.5 16.3284 16.8284 17 16 17H4C3.17157 17 2.5 16.3284 2.5 15.5V14" stroke="currentColor" stroke-width="1.5"/><path d="M10 11V1M10 1L6 5M10 1L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><strong>Ubicación</strong><span>Medellín, Colombia</span></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 4C2 2.89543 2.89543 2 4 2H16C17.1046 2 18 2.89543 18 4V16C18 17.1046 17.1046 18 16 18H4C2.89543 18 2 17.1046 2 16V4Z" stroke="currentColor" stroke-width="1.5"/><path d="M2 6L10 11L18 6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                <div><strong>WhatsApp</strong><span>+57 300 123 4567</span></div>
+              </div>
+            </div>
+          </div>
+          <form class="contact-form reveal-up" data-delay="200" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input type="text" id="name" name="name" required placeholder="Juan Pérez" autocomplete="name">
+                <span class="form-error" role="alert"></span>
+              </div>
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="juan@empresa.com" autocomplete="email">
+                <span class="form-error" role="alert"></span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" name="phone" placeholder="+57 300 123 4567" autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label for="service">Servicio de interés</label>
+                <select id="service" name="service">
+                  <option value="">Selecciona un servicio</option>
+                  <option value="impresion">Impresión Gran Formato</option>
+                  <option value="merchandising">Merchandising</option>
+                  <option value="textiles">Textiles (Gorras, Camisetas)</option>
+                  <option value="papeleria">Papelería Corporativa</option>
+                  <option value="zencard">ZenCard NFC</option>
+                  <option value="dotacion">Dotación Empresarial</option>
+                  <option value="marketing">Marketing Digital</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="message">Cuéntanos tu proyecto</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Describe tu proyecto, cantidades, colores, fechas estimadas..."></textarea>
+              <span class="form-error" role="alert"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-full">
+              Solicitar Cotización
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section" aria-label="Ubicación">
+      <div class="map-container">
+        <div class="map-placeholder">
+          <div class="map-overlay-content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span>Medellín, Colombia</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="Grupo Zennoa Inicio">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="14" stroke="url(#footerGrad)" stroke-width="2"/>
+              <path d="M10 20L13 15L16 20L19 15L22 20" stroke="url(#footerGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="footerGrad" x1="0" y1="0" x2="32" y2="32">
+                  <stop offset="0%" stop-color="#0EA5E9"/>
+                  <stop offset="100%" stop-color="#8B5CF6"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span class="logo-text">Grupo Zennoa</span>
+          </a>
+          <p class="footer-desc">Innovación que impulsa tu marca. Soluciones integrales de publicidad, merchandising, tecnología NFC y marketing digital.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            <a href="#" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Servicios</h4>
+          <a href="#" class="footer-link">Impresión Gran Formato</a>
+          <a href="#" class="footer-link">DTF & Sublimación</a>
+          <a href="#" class="footer-link">Corte Láser & Tampografía</a>
+          <a href="#" class="footer-link">Bordado Profesional</a>
+          <a href="#" class="footer-link">Merchandising</a>
+          <a href="#" class="footer-link">ZenCard NFC</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Empresa</h4>
+          <a href="#" class="footer-link">Nosotros</a>
+          <a href="#" class="footer-link">Portafolio</a>
+          <a href="#" class="footer-link">Blog</a>
+          <a href="#" class="footer-link">Trabaja con Nosotros</a>
+          <a href="#" class="footer-link">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-title">Atención</h4>
+          <a href="#" class="footer-link">Centro de Ayuda</a>
+          <a href="#" class="footer-link">Política de Privacidad</a>
+          <a href="#" class="footer-link">Términos del Servicio</a>
+          <a href="#" class="footer-link">Política de Cookies</a>
+          <a href="#" class="footer-link">Garantía</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Grupo Zennoa. Todos los derechos reservados.</p>
+        <p>Innovación que impulsa tu marca — Medellín, Colombia</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="whatsapp-float" id="whatsappFloat" role="button" aria-label="Contactar por WhatsApp" tabindex="0">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </div>
+
+  <div class="back-to-top" id="backToTop" role="button" aria-label="Volver arriba" tabindex="0">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 15V3M9 3L4 8M9 3L14 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
