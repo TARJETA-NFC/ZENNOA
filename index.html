@@ -3,48 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba de PelisTejada</title>
+    <title>Grupo Zennoa | Tecnología e Innovación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            background-color: #111;
-            color: #00ffcc;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #888;
-            font-size: 1.2rem;
-        }
-        .success-box {
-            border: 2px solid #00ffcc;
-            padding: 20px 40px;
-            border-radius: 10px;
-            background-color: #1a1a1a;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #050505; color: #fff; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .neon-cyan { color: #00f2ff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+        .card-hover:hover { transform: translateY(-10px); border-color: #00f2ff; transition: 0.3s; }
+        .gradient-bg { background: radial-gradient(circle at 50% 50%, #1a2a3a 0%, #050505 70%); }
     </style>
 </head>
-<body>
+<body class="gradient-bg">
 
-    <div class="success-box">
-        <h1>¡FUNCIONA! 🚀</h1>
-        <p>Si estás viendo esta pantalla negra con letras verdes,</p>
-        <p>significa que tu GitHub Pages ya está bien configurado.</p>
-        <br>
-        <p style="color: #fff; font-size: 1rem;">Próximo paso: Regresar el código de PelisTejada.</p>
-    </div>
+    <!-- Navegación -->
+    <nav class="glass sticky top-0 z-50 p-6 flex justify-between items-center">
+        <span class="text-2xl font-black tracking-tighter">ZENNOA</span>
+        <div class="space-x-8 text-sm uppercase tracking-widest">
+            <a href="#" class="hover:text-cyan-400">NFC</a>
+            <a href="#" class="hover:text-cyan-400">Impresión</a>
+            <a href="#" class="hover:text-cyan-400">Contacto</a>
+        </div>
+    </nav>
 
+    <!-- Hero -->
+    <header class="h-screen flex flex-col justify-center items-center text-center px-4">
+        <h1 class="text-6xl md:text-8xl font-black mb-6">IMPRESIÓN <span class="neon-cyan">EVOLUCIONADA</span></h1>
+        <p class="text-xl text-gray-400 max-w-2xl mb-10">Fusionamos el arte de la publicidad física con la potencia de la conectividad NFC.</p>
+        <button id="cta" class="px-8 py-4 bg-cyan-500 text-black font-bold rounded-full hover:scale-105 transition-all">Explorar Proyectos</button>
+    </header>
+
+    <!-- Bento Grid -->
+    <section class="max-w-6xl mx-auto p-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-8 rounded-3xl card-hover col-span-2">
+                <h3 class="text-2xl font-bold mb-4">Tecnología NFC</h3>
+                <p class="text-gray-400">Convierte cualquier soporte físico en una experiencia digital interactiva al instante.</p>
+            </div>
+            <div class="glass p-8 rounded-3xl card-hover">
+                <h3 class="text-2xl font-bold mb-4">Redes Sociales</h3>
+                <div class="space-y-2">
+                    <div class="h-10 w-full bg-white/10 rounded-lg animate-pulse"></div>
+                    <div class="h-10 w-full bg-white/10 rounded-lg animate-pulse delay-75"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="p-10 flex justify-center">
+        <div class="glass p-2 rounded-3xl w-full max-w-4xl">
+            <video class="w-full rounded-2xl" controls poster="https://via.placeholder.com/1200x600">
+                <source src="video-promocional.mp4" type="video/mp4">
+            </video>
+        </div>
+    </section>
+
+    <footer class="p-20 text-center text-gray-600">
+        &copy; 2026 GRUPO ZENNOA. TODOS LOS DERECHOS RESERVADOS.
+    </footer>
+
+    <script>
+        document.getElementById('cta').addEventListener('click', () => {
+            const audio = new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg');
+            audio.play().catch(() => {});
+            alert('¡Iniciando experiencia Zennoa!');
+        });
+    </script>
 </body>
 </html>
